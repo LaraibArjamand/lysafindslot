@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Results</title>
+</head>
+<body>
+	<h1>Available Slots</h1>
+
+	{% for date,time in slots.items %}
+	{{ date }} - 
+	{% for s,t in time %}
+	{{s}} - {{t}},
+	{% endfor %}
+	<br>
+	{% endfor %}
+
+</body>
+</html>

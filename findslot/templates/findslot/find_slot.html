@@ -1,0 +1,128 @@
+<!-- Specific CSS goes HERE -->
+<head>
+	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	 <style type="text/css">
+
+	 	li {
+	 		list-style:none;
+	 	}
+
+	</style>
+</head>
+<body>	
+	<h3>Find your meeting slot - Select what you'd like to schedule</h3>
+
+	<h4>Search Time Between</h4>
+	
+
+	<form action="{% url 'find_slot' %}" method="POST">
+    {% csrf_token %}
+    {{ form.time_between }}
+
+	<span>{{ form.custom_time_search_from.label }}</span>
+	          {{ form.custom_time_search_from }}
+					
+	<span>{{ form.custom_time_search_to.label }}</span>
+	         {{ form.custom_time_search_to }}
+
+
+	<!---------------------- DATE ------------------->
+	<h4>Search Date Between</h4>
+	{{ form.date_between }}
+
+	<span>{{ form.custom_date_search_from.label }}</span>
+			 {{ form.custom_date_search_from }}	
+
+	<span>{{ form.custom_date_search_to.label }}</span>
+			 {{ form.custom_date_search_to }}
+	<br>
+	{{ form.meeting_length.label }}
+	{{ form.meeting_length }}<br>
+
+	{{ form.buffer_length.label }}
+	{{ form.buffer_length }}<br>
+
+	{{ form.day_events.label}}
+	{{ form.day_events }}<br>
+
+	{{ form.holiday.label }}
+	{{ form.holiday }}
+
+	<input type="submit" name="Search">
+	</form>	
+
+	<script>
+
+		$(document).ready(function() {
+
+			// Function to disable checkboxes when user checks
+			// custom time slot
+			$('#id_time_between_4').click(function(){
+				if(this.checked){
+					for(var i=0; i < 4; i++){
+						$('#id_time_between_'+i).prop("checked", false);
+						$('#id_time_between_'+i).prop("disabled", true);			
+					}
+				}
+				else{
+					for(var i=0; i < 4; i++){
+						$('#id_time_between_'+i).prop("disabled", false);
+					}
+				}
+			});
+
+			// Function to disable checkboxes when user checks
+			// custom date slot
+			$('#id_date_between_4').click(function(){
+				if(this.checked){
+					for(var i=0; i < 4; i++){
+						$('#id_date_between_'+i).prop("checked", false);
+						$('#id_date_between_'+i).prop("disabled", true);
+					}
+				}
+				else{
+					for(var i=0; i < 4; i++){
+						$('#id_date_between_'+i).prop("disabled", false);
+					}
+				}
+			});
+
+		// initially hide the dropdown for custom time and date slots
+		$('.custom-date, .custom-time').hide();
+        $('.custom-date, .custom-time').prev().hide();
+
+
+        // if custom checkbox is checked, display the custom 
+        // dropdown to select time range
+        $('.time-list').click(function(){
+        	var time_value = $('.time-list:checked').val();
+        	if (time_value == 'custom'){
+        		$('.custom-time').show();
+        		$('.custom-time').prev().show();
+        	}
+        	if (time_value != 'custom'){
+        		$('.custom-time').hide();
+        		$('.custom-time').prev().hide();
+        	}
+        });
+
+        // if custom checkbox is checked, display the custom 
+        // dropdown to select date range
+        $('.date-list').click(function(){
+        	var date_value = $('.date-list:checked').val();
+
+        	if (date_value == 'custom'){
+        		$('.custom-date').show();
+        		$('.custom-date').prev().show();
+        	}
+        	if (date_value != 'custom'){
+        		$('.custom-date').hide();
+        		$('.custom-date').prev().hide();
+        	}
+        });
+        
+    });
+		
+	</script>
+</body>
